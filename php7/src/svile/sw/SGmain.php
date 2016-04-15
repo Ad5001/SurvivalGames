@@ -302,7 +302,7 @@ class SGmain extends PluginBase
     public function refreshSigns($all = true, $SGname = '', $players = 0, $slot = 0, $state = '§fTap to join')
     {
         if (!$all) {
-            $ex = explode(':', array_search($SWname, $this->signs));
+            $ex = explode(':', array_search($SGname, $this->signs));
             if (count($ex) == 0b100) {
                 $this->getServer()->loadLevel($ex[0b11]);
                 if ($this->getServer()->getLevelByName($ex[0b11]) instanceof \pocketmine\level\Level) {
