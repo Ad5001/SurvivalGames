@@ -165,7 +165,7 @@ class SGmain extends PluginBase
             'void.kill' => '@c→@f{PLAYER} @cwas killed by @fVOID @b{COUNT}',
             'game.left' => '@f→@7{PLAYER} left the game @b{COUNT}',
             'game.chest_refill' => '@b→@aChests has been refilled !',
-            'server.broadcast_winner' => '@0•@f{PLAYER} @bwon the game on SW: @f{SWNAME}'
+            'server.broadcast_winner' => '@0•@f{PLAYER} @bwon the game on SG: @f{SGNAME}'
         ));
         touch($this->getDataFolder() . 'SG_lang.yml');
         $this->lang = $this->lang->getAll();
@@ -266,20 +266,20 @@ class SGmain extends PluginBase
      * @param bool $all
      * @return bool
      */
-    public function setSign($SWname, $x, $y, $z, $world, $delete = false, $all = true) : bool
+    public function setSign($SGname, $x, $y, $z, $world, $delete = false, $all = true) : bool
     {
         if ($delete) {
             if ($all)
                 $this->db->query("DELETE FROM signs;");
             else
-                $this->db->query("DELETE FROM signs WHERE arena='$SWname';");
+                $this->db->query("DELETE FROM signs WHERE arena='$SGname';");
             if ($this->loadSigns())
                 return true;
             else
                 return false;
         } else {
             $stmt = $this->db->prepare("INSERT OR REPLACE INTO signs (arena, x, y, z, world) VALUES (:arena, :x, :y, :z, :world);");
-            $stmt->bindValue(":arena", $SWname);
+            $stmt->bindValue(":arena", $SGname);
             $stmt->bindValue(":x", $x);
             $stmt->bindValue(":y", $y);
             $stmt->bindValue(":z", $z);
