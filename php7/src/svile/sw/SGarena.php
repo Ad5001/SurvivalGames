@@ -21,10 +21,10 @@ class SGarena
 {
     /** @var int */
     public $GAME_STATE = 0;//0 -> GAME_COUNTDOWN | 1 -> GAME_RUNNING
-    /** @var SWmain */
+    /** @var SGmain */
     private $pg;
     /** @var string */
-    private $SWname;
+    private $SGname;
     /** @var int */
     private $slot;
     /** @var string */
@@ -43,7 +43,7 @@ class SGarena
     public $void = 0;//This is used to check "fake void" to avoid fall (stunck in air) bug
 
     /**
-     * @param SWmain $plugin
+     * @param SGmain $plugin
      * @param string $SWname
      * @param int $slot
      * @param string $world
@@ -51,7 +51,7 @@ class SGarena
      * @param int $maxtime
      * @param int $void
      */
-    public function __construct(SWmain $plugin, $SWname = 'sw', $slot = 0, $world = 'world', $countdown = 0, $maxtime = 0, $void = 0)
+    public function __construct(SWmain $plugin, $SGname = 'sw', $slot = 0, $world = 'world', $countdown = 0, $maxtime = 0, $void = 0)
     {
         $this->pg = $plugin;
         $this->SGname = $SGname;
@@ -83,7 +83,7 @@ class SGarena
         unset($zip);
         $this->pg->getServer()->loadLevel($this->world);
 
-        $config = new Config($this->pg->getDataFolder() . 'arenas/' . $this->SWname . '/settings.yml', CONFIG::YAML, array(//TODO: put descriptions
+        $config = new Config($this->pg->getDataFolder() . 'arenas/' . $this->SGname . '/settings.yml', CONFIG::YAML, array(//TODO: put descriptions
             'name' => $this->SGname,
             'slot' => $this->slot,
             'world' => $this->world,
@@ -105,7 +105,7 @@ class SGarena
         $this->GAME_STATE = 0;
 
         //Reset Sign
-        $this->pg->refreshSigns(false, $this->SWname, 0, $this->slot);
+        $this->pg->refreshSigns(false, $this->SGname, 0, $this->slot);
         return true;
     }
 
@@ -183,7 +183,7 @@ class SGarena
                 $player->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'This arena have only got ' . TextFormat::WHITE . $this->slot . TextFormat::RED . ' slots');
                 return false;
             }
-            $config = new Config($this->pg->getDataFolder() . 'arenas/' . $this->SWname . '/settings.yml', CONFIG::YAML);
+            $config = new Config($this->pg->getDataFolder() . 'arenas/' . $this->SGname . '/settings.yml', CONFIG::YAML);
 
             if (empty($config->get('spawns', []))) {
                 $keys = [];
@@ -318,7 +318,7 @@ class SGarena
         foreach ($level->getPlayers() as $p) {
             $p->sendMessage(str_replace('{COUNT}', '[' . $this->getSlot(true) . '/' . $this->slot . ']', str_replace('{PLAYER}', $player->getName(), $this->pg->lang['game.join'])));
         }
-        $this->pg->refreshSigns(false, $this->SWname, $this->getSlot(true), $this->slot, $this->getState());
+        $this->pg->refreshSigns(false, $this->SGname, $this->getSlot(true), $this->slot, $this->getState());
     }
 
     /**
@@ -333,7 +333,7 @@ class SGarena
         if ($this->GAME_STATE == 0)
             $this->spawns[] = $this->players[$playerName];
         unset($this->players[$playerName]);
-        $this->pg->refreshSigns(false, $this->SWname, $this->getSlot(true), $this->slot, $this->getState());
+        $this->pg->refreshSigns(false, $this->SGname, $this->getSlot(true), $this->slot, $this->getState());
         if ($left) {
             foreach ($this->pg->getServer()->getLevelByName($this->world)->getPlayers() as $p) {
                 $p->sendMessage(str_replace('{COUNT}', '[' . $this->getSlot(true) . '/' . $this->slot . ']', str_replace('{PLAYER}', $playerName, $this->pg->lang['game.left'])));
@@ -358,7 +358,7 @@ class SGarena
         }
         $this->time = 0;
         $this->GAME_STATE = 1;
-        $this->pg->refreshSigns(false, $this->SWname, $this->getSlot(true), $this->slot, (TextFormat::RED . TextFormat::BOLD . 'Running'));
+        $this->pg->refreshSigns(false, $this->SGname, $this->getSlot(true), $this->slot, (TextFormat::RED . TextFormat::BOLD . 'Running'));
     }
 
     /**
@@ -375,7 +375,7 @@ class SGarena
                 $p->removeAllEffects();
                 $p->teleport($p->getServer()->getDefaultLevel()->getSpawnLocation());
                 foreach ($this->pg->getServer()->getDefaultLevel()->getPlayers() as $pl) {
-                    $pl->sendMessage(str_replace('{SWNAME}', $this->SWname, str_replace('{PLAYER}', $p->getName(), $this->pg->lang['server.broadcast_winner'])));
+                    $pl->sendMessage(str_replace('{SGNAME}', $this->SGname, str_replace('{PLAYER}', $p->getName(), $this->pg->lang['server.broadcast_winner'])));
                 }
 
             }
