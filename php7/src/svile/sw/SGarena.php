@@ -51,7 +51,7 @@ class SGarena
      * @param int $maxtime
      * @param int $void
      */
-    public function __construct(SWmain $plugin, $SGname = 'sw', $slot = 0, $world = 'world', $countdown = 0, $maxtime = 0, $void = 0)
+    public function __construct(SGmain $plugin, $SGname = 'sg', $slot = 0, $world = 'world', $countdown = 0, $maxtime = 0, $void = 0)
     {
         $this->pg = $plugin;
         $this->SGname = $SGname;
