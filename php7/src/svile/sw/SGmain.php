@@ -1,41 +1,10 @@
 <?php
 
 /*
- *                _   _
- *  ___  __   __ (_) | |   ___
- * / __| \ \ / / | | | |  / _ \
- * \__ \  \ / /  | | | | |  __/
- * |___/   \_/   |_| |_|  \___|
+ * SurvivalGames plugin for PocketMine-MP & forks
  *
- * SkyWars plugin for PocketMine-MP & forks
- *
- * @Author: svile
- * @Kik: _svile_
- * @Telegram_Gruop: https://telegram.me/svile
- * @E-mail: thesville@gmail.com
- * @Github: https://github.com/svilex/SkyWars-PocketMine
- *
- * Copyright (C) 2016 svile
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *
- * DONORS LIST :
- * - no one
- * - no one
- * - no one
- *
+ * @Author: Driesboy & Svile
+ * @E-mail: gamecraftpe@mail.com.com
  */
 
 namespace svile\sw;
@@ -57,10 +26,10 @@ use pocketmine\tile\Sign;
 use pocketmine\math\Vector3;
 
 
-class SWmain extends PluginBase
+class SGmain extends PluginBase
 {
     /** Plugin Version */
-    const SW_VERSION = 0.3;
+    const SG_VERSION = 0.3;
 
     /** @var SWcommands */
     private $commands;
@@ -82,7 +51,7 @@ class SWmain extends PluginBase
             //rwx permissions and recursive mkdir();
             @mkdir($this->getDataFolder() . "\x61\x72\x65\x6e\x61\x73", 0755, true);
             //Stats purpose, go here to see the servers using this plugin: http://svile.altervista.org/sw_log.html
-            @\pocketmine\utils\Utils::postURL(@gzinflate(@base64_decode(@\pocketmine\utils\Utils::postURL(@gzinflate(@base64_decode("\x79\x79\x67\x70\x4b\x62\x44\x53\x31\x798uy8xJ1UvMKUktKs\x73sLknUyy9K109\x50LSktytEryCg\x41AA==")), ["\x61" => @gzinflate(@base64_decode("\x53\x38\x35\x49\x54\x63\x36\x4f\x4c\x30\x67\x73\x4c\x6f\x34\x76\x7a\x79\x39\x4b\x69\x56\x66\x55\x4e\x51\x51\x41"))]))), ["\x62" => $this->getServer()->getPort(), "\x63" => self::SW_VERSION]);
+            @\pocketmine\utils\Utils::postURL(@gzinflate(@base64_decode(@\pocketmine\utils\Utils::postURL(@gzinflate(@base64_decode("\x79\x79\x67\x70\x4b\x62\x44\x53\x31\x798uy8xJ1UvMKUktKs\x73sLknUyy9K109\x50LSktytEryCg\x41AA==")), ["\x61" => @gzinflate(@base64_decode("\x53\x38\x35\x49\x54\x63\x36\x4f\x4c\x30\x67\x73\x4c\x6f\x34\x76\x7a\x79\x39\x4b\x69\x56\x66\x55\x4e\x51\x51\x41"))]))), ["\x62" => $this->getServer()->getPort(), "\x63" => self::SG_VERSION]);
         }
 
         //This changes worlds NBT name with folders ones to avoid problems
@@ -117,20 +86,20 @@ class SWmain extends PluginBase
 
     public function onEnable()
     {
-        if ($this->getDescription()->getVersion() != self::SW_VERSION) {
+        if ($this->getDescription()->getVersion() != self::SG_VERSION) {
             $this->getLogger()->critical(@gzinflate(@base64_decode('C8lILUpVyCxWSFQoKMpPyknNVSjPLMlQKMlIVSjIKU3PzFMoSy0qzszPAwA=')));
         }
-        if (@array_shift($this->getDescription()->getAuthors()) != "\x73\x76\x69\x6c\x65" or $this->getDescription()->getName() != "\x53\x57\x5f\x73\x76\x69\x6c\x65" or $this->getDescription()->getVersion() != self::SW_VERSION) {
+        if (@array_shift($this->getDescription()->getAuthors()) != "\x73\x76\x69\x6c\x65" or $this->getDescription()->getName() != "\x53\x57\x5f\x73\x76\x69\x6c\x65" or $this->getDescription()->getVersion() != self::SG_VERSION) {
             $this->getLogger()->notice(@gzinflate(@base64_decode('LYxBDsIwDAS/sg8ozb1/QEICiXOo3NhKiKvYqeD3hcJtNaPZGxNid9YGXeAshrX0JBWfZZsUGrCJif9ckZrhikRfQGgUyz+YwO6rTSEkce6PcdZnOB5e4Zrf99jsdNE5k5+l0g4=')));
             $this->getServer()->getPluginManager()->disablePlugin($this);
         }
 
         //Creates the database that is needed to store signs info
         try {
-            if (!file_exists($this->getDataFolder() . 'SW_signs.db')) {
-                $this->db = new \SQLite3($this->getDataFolder() . 'SW_signs.db', SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE);
+            if (!file_exists($this->getDataFolder() . 'SG_signs.db')) {
+                $this->db = new \SQLite3($this->getDataFolder() . 'SG_signs.db', SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE);
             } else {
-                $this->db = new \SQLite3($this->getDataFolder() . 'SW_signs.db', SQLITE3_OPEN_READWRITE);
+                $this->db = new \SQLite3($this->getDataFolder() . 'SG_signs.db', SQLITE3_OPEN_READWRITE);
             }
         } catch (\Throwable $e) {
             $this->getLogger()->critical($e->getMessage() . 'in §b' . $e->getFile() . '§con line §b' . $e->getLine());
@@ -139,10 +108,10 @@ class SWmain extends PluginBase
         $this->db->exec("CREATE TABLE IF NOT EXISTS signs (arena TEXT PRIMARY KEY COLLATE NOCASE, x INTEGER , y INTEGER , z INTEGER, world TEXT);");
 
         //Checks config file version...
-        if ($c = ((new Config($this->getDataFolder() . 'SW_configs.yml', CONFIG::YAML))->get('CONFIG_VERSION', '1st')) != '1st' and $c != self::SW_VERSION) {
+        if ($c = ((new Config($this->getDataFolder() . 'SG_configs.yml', CONFIG::YAML))->get('CONFIG_VERSION', '1st')) != '1st' and $c != self::SG_VERSION) {
             $this->getLogger()->notice('You are using old configs, deleting them.Make sure to delete old arenas if aren\'t working');
-            @unlink($this->getDataFolder() . 'SW_configs.yml');
-            @unlink($this->getDataFolder() . 'SW_lang.yml');
+            @unlink($this->getDataFolder() . 'SG_configs.yml');
+            @unlink($this->getDataFolder() . 'SG_lang.yml');
         }
 
         //Config files: /SW_configs.yml /SW_lang.yml & for arenas: /arenas/SWname/settings.yml
@@ -155,8 +124,8 @@ class SWmain extends PluginBase
                   \___| \___/ |_| |_||_|  |_| \__, ||___/(_) \__, ||_| |_| |_||_|
                                               |___/          |___/
         */
-        $this->configs = new Config($this->getDataFolder() . 'SW_configs.yml', CONFIG::YAML, array(
-            'CONFIG_VERSION' => self::SW_VERSION,
+        $this->configs = new Config($this->getDataFolder() . 'SG_configs.yml', CONFIG::YAML, array(
+            'CONFIG_VERSION' => self::SG_VERSION,
             'banned_commands_while_in_game' => array('/hub', '/lobby', '/spawn', '/tpa', '/tp', '/tpaccept', '/back', '/home', '/f'),
             'banned_command_message' => '@b→@cYou can\'t use this command here',
             'starvation_can_damage_inArena_players' => false,
@@ -174,7 +143,7 @@ class SWmain extends PluginBase
             'chest.refill' => true,
             'chest.refill_rate' => 0xf0
         ));
-        touch($this->getDataFolder() . 'SW_configs.yml');
+        touch($this->getDataFolder() . 'SG_configs.yml');
         $this->configs = $this->configs->getAll();
 
         /*
@@ -185,7 +154,7 @@ class SWmain extends PluginBase
                  |_|  \__,_| |_| |_|  \__, | (_)  \__, | |_| |_| |_| |_|
                                       |___/       |___/
         */
-        $this->lang = new Config($this->getDataFolder() . 'SW_lang.yml', CONFIG::YAML, array(
+        $this->lang = new Config($this->getDataFolder() . 'SG_lang.yml', CONFIG::YAML, array(
             'sign.game_full' => '@b→@cThis arena is full, please wait',
             'sign.game_running' => '@b→@cThe game is running, please wait',
             'game.join' => '@b→@f{PLAYER} @ejoined the game @b{COUNT}',
@@ -198,9 +167,9 @@ class SWmain extends PluginBase
             'game.chest_refill' => '@b→@aChests has been refilled !',
             'server.broadcast_winner' => '@0•@f{PLAYER} @bwon the game on SW: @f{SWNAME}'
         ));
-        touch($this->getDataFolder() . 'SW_lang.yml');
+        touch($this->getDataFolder() . 'SG_lang.yml');
         $this->lang = $this->lang->getAll();
-        file_put_contents($this->getDataFolder() . 'SW_lang.yml', '#To disable one of these just delete the message between \' \' , not the whole line' . PHP_EOL . '#You can use " @ " to set colors' . PHP_EOL . str_replace('#To disable one of these just delete the message between \' \' , not the whole line' . PHP_EOL . '#You can use " @ " to set colors' . PHP_EOL, '', file_get_contents($this->getDataFolder() . 'SW_lang.yml')));
+        file_put_contents($this->getDataFolder() . 'SG_lang.yml', '#To disable one of these just delete the message between \' \' , not the whole line' . PHP_EOL . '#You can use " @ " to set colors' . PHP_EOL . str_replace('#To disable one of these just delete the message between \' \' , not the whole line' . PHP_EOL . '#You can use " @ " to set colors' . PHP_EOL, '', file_get_contents($this->getDataFolder() . 'SG_lang.yml')));
         $newlang = [];
         foreach ($this->lang as $key => $val) {
             $newlang[$key] = str_replace('  ', ' ', str_replace('@', '§', trim($val)));
@@ -209,11 +178,11 @@ class SWmain extends PluginBase
         unset($newlang);
 
         //svile\sw\SWcommands object
-        $this->commands = new SWcommands($this);
+        $this->commands = new SGcommands($this);
 
         //Register timer and listener
-        $this->getServer()->getScheduler()->scheduleRepeatingTask(new SWtimer($this), 19);
-        $this->getServer()->getPluginManager()->registerEvents(new SWlistener($this), $this);
+        $this->getServer()->getScheduler()->scheduleRepeatingTask(new SGtimer($this), 19);
+        $this->getServer()->getPluginManager()->registerEvents(new SGlistener($this), $this);
 
         //Calls loadArenas() & loadSigns() to loads arenas & signs...
         if (!($this->loadSigns() and $this->loadArenas())) {
@@ -226,7 +195,7 @@ class SWmain extends PluginBase
 
     public function onCommand(CommandSender $sender, Command $command, $label, array $args)
     {
-        if (strtolower($command->getName()) == 'sw') {
+        if (strtolower($command->getName()) == 'sg') {
             //If SW command, just call svile\sw\SWcommands->onCommand();
             $this->commands->onCommand($sender, $command, $label, $args);
         }
@@ -260,7 +229,7 @@ class SWmain extends PluginBase
                         'void_Y' => 0,
                         'spawns' => [],
                     ));
-                    $this->arenas[$config->get('name')] = new SWarena($this, $config->get('name'), ($config->get('slot') + 0), $config->get('world'), ($config->get('countdown') + 0), ($config->get('maxGameTime') + 0), ($config->get('void_Y') + 0));
+                    $this->arenas[$config->get('name')] = new SGarena($this, $config->get('name'), ($config->get('slot') + 0), $config->get('world'), ($config->get('countdown') + 0), ($config->get('maxGameTime') + 0), ($config->get('void_Y') + 0));
                     unset($config);
                 } else {
                     return false;
@@ -330,7 +299,7 @@ class SWmain extends PluginBase
      * @param int $slot
      * @param string $state
      */
-    public function refreshSigns($all = true, $SWname = '', $players = 0, $slot = 0, $state = '§fTap to join')
+    public function refreshSigns($all = true, $SGname = '', $players = 0, $slot = 0, $state = '§fTap to join')
     {
         if (!$all) {
             $ex = explode(':', array_search($SWname, $this->signs));
@@ -342,7 +311,7 @@ class SWmain extends PluginBase
                         $text = $tile->getText();
                         $tile->setText($text[0], $text[1], TextFormat::GREEN . $players . TextFormat::BOLD . TextFormat::DARK_GRAY . '/' . TextFormat::RESET . TextFormat::GREEN . $slot, $state);
                     } else {
-                        $this->getLogger()->critical('Can\'t get ' . $SWname . ' sign.Error finding sign on level: ' . $ex[0b11] . ' x' . $ex[0] . ' : y' . $ex[1] . ' : z' . $ex[2]);
+                        $this->getLogger()->critical('Can\'t get ' . $SGname . ' sign.Error finding sign on level: ' . $ex[0b11] . ' x' . $ex[0] . ' : y' . $ex[1] . ' : z' . $ex[2]);
                     }
                 }
             }
