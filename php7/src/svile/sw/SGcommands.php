@@ -21,7 +21,7 @@ class SGcommands
     /** @var SWmain */
     private $pg;
 
-    public function __construct(SWmain $plugin)
+    public function __construct(SGmain $plugin)
     {
         $this->pg = $plugin;
     }
