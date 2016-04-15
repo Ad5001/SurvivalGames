@@ -1,41 +1,10 @@
 <?php
 
 /*
- *                _   _
- *  ___  __   __ (_) | |   ___
- * / __| \ \ / / | | | |  / _ \
- * \__ \  \ / /  | | | | |  __/
- * |___/   \_/   |_| |_|  \___|
+ * SurvivalGames plugin for PocketMine-MP & forks
  *
- * SkyWars plugin for PocketMine-MP & forks
- *
- * @Author: svile
- * @Kik: _svile_
- * @Telegram_Gruop: https://telegram.me/svile
- * @E-mail: thesville@gmail.com
- * @Github: https://github.com/svilex/SkyWars-PocketMine
- *
- * Copyright (C) 2016 svile
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *
- * DONORS LIST :
- * - no one
- * - no one
- * - no one
- *
+ * @Author: Driesboy & Svile
+ * @E-mail: gamecraftpe@mail.com.com
  */
 
 namespace svile\sw;
@@ -64,58 +33,58 @@ use pocketmine\utils\TextFormat;
 use pocketmine\math\Vector3;
 
 
-class SWlistener implements Listener
+class SGlistener implements Listener
 {
-    /** @var SWmain */
+    /** @var SGmain */
     private $pg;
 
-    public function __construct(SWmain $plugin)
+    public function __construct(SGmain $plugin)
     {
         $this->pg = $plugin;
     }
 
     public function onSignChange(SignChangeEvent $ev)
     {
-        if ($ev->getLine(0) != 'sw' or $ev->getPlayer()->isOp() == false)
+        if ($ev->getLine(0) != 'sg' or $ev->getPlayer()->isOp() == false)
             return;
 
         //Checks if the arena exists
-        $SWname = TextFormat::clean(trim($ev->getLine(1)));
-        if (!array_key_exists($SWname, $this->pg->arenas)) {
-            $ev->getPlayer()->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'This arena doesn\'t exist, try ' . TextFormat::WHITE . '/sw create');
+        $SGname = TextFormat::clean(trim($ev->getLine(1)));
+        if (!array_key_exists($SGname, $this->pg->arenas)) {
+            $ev->getPlayer()->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'This arena doesn\'t exist, try ' . TextFormat::WHITE . '/sg create');
             return;
         }
 
         //Checks if a sign already exists for the arena
-        if (in_array($SWname, $this->pg->signs)) {
-            $ev->getPlayer()->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'A sign for this arena already exist, try ' . TextFormat::WHITE . '/sw signdelete');
+        if (in_array($SGname, $this->pg->signs)) {
+            $ev->getPlayer()->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'A sign for this arena already exist, try ' . TextFormat::WHITE . '/sg signdelete');
             return;
         }
 
         //Checks if the sign is placed in a different world from the arena one
         $world = $ev->getPlayer()->getLevel()->getName();
-        if ($world == $this->pg->arenas[$SWname]->getWorld()) {
+        if ($world == $this->pg->arenas[$SGname]->getWorld()) {
             $ev->getPlayer()->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'You can\'t place the join sign in the arena');
             return;
         }
 
         //Checks arena spawns
-        if (!$this->pg->arenas[$SWname]->setSpawn(true, '')) {
-            $ev->getPlayer()->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Not all the spawns are set in this arena, try ' . TextFormat::WHITE . ' /sw setspawn');
+        if (!$this->pg->arenas[$SGname]->setSpawn(true, '')) {
+            $ev->getPlayer()->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Not all the spawns are set in this arena, try ' . TextFormat::WHITE . ' /sg setspawn');
             return;
         }
 
         //Saves the sign
-        if (!$this->pg->setSign($SWname, ($ev->getBlock()->getX() + 0), ($ev->getBlock()->getY() + 0), ($ev->getBlock()->getZ() + 0), $world))
+        if (!$this->pg->setSign($SGname, ($ev->getBlock()->getX() + 0), ($ev->getBlock()->getY() + 0), ($ev->getBlock()->getZ() + 0), $world))
             $ev->getPlayer()->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'An error occured, please contact the developer');
         else
-            $ev->getPlayer()->sendMessage(TextFormat::AQUA . '→' . TextFormat::GREEN . 'SW join sign created !');
+            $ev->getPlayer()->sendMessage(TextFormat::AQUA . '→' . TextFormat::GREEN . 'SG join sign created !');
 
         //TODO: rewrite this and let the owner decide the sign style
         //Sets format
-        $ev->setLine(0, TextFormat::BOLD . TextFormat::RED . '[' . TextFormat::AQUA . 'SW' . TextFormat::RED . ']');
+        $ev->setLine(0, TextFormat::BOLD . TextFormat::RED . '[' . TextFormat::AQUA . 'SG' . TextFormat::RED . ']');
         $ev->setLine(1, TextFormat::BOLD . TextFormat::YELLOW . $SWname);
-        $ev->setLine(2, TextFormat::GREEN . '0' . TextFormat::BOLD . TextFormat::DARK_GRAY . '/' . TextFormat::RESET . TextFormat::GREEN . $this->pg->arenas[$SWname]->getSlot());
+        $ev->setLine(2, TextFormat::GREEN . '0' . TextFormat::BOLD . TextFormat::DARK_GRAY . '/' . TextFormat::RESET . TextFormat::GREEN . $this->pg->arenas[$SGname]->getSlot());
         $ev->setLine(3, TextFormat::WHITE . 'Tap to join');
         $this->pg->refreshSigns(true);
         unset($SWname, $world);
