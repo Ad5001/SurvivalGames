@@ -83,11 +83,11 @@ class SGlistener implements Listener
         //TODO: rewrite this and let the owner decide the sign style
         //Sets format
         $ev->setLine(0, TextFormat::BOLD . TextFormat::RED . '[' . TextFormat::AQUA . 'SG' . TextFormat::RED . ']');
-        $ev->setLine(1, TextFormat::BOLD . TextFormat::YELLOW . $SWname);
+        $ev->setLine(1, TextFormat::BOLD . TextFormat::YELLOW . $SGname);
         $ev->setLine(2, TextFormat::GREEN . '0' . TextFormat::BOLD . TextFormat::DARK_GRAY . '/' . TextFormat::RESET . TextFormat::GREEN . $this->pg->arenas[$SGname]->getSlot());
         $ev->setLine(3, TextFormat::WHITE . 'Tap to join');
         $this->pg->refreshSigns(true);
-        unset($SWname, $world);
+        unset($SGname, $world);
     }
 
     public function onInteract(PlayerInteractEvent $ev)
