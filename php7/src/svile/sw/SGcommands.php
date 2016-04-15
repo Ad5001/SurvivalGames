@@ -1,57 +1,22 @@
 <?php
 
 /*
- *                _   _
- *  ___  __   __ (_) | |   ___
- * / __| \ \ / / | | | |  / _ \
- * \__ \  \ / /  | | | | |  __/
- * |___/   \_/   |_| |_|  \___|
+ * SurvivalGames plugin for PocketMine-MP & forks
  *
- * SkyWars plugin for PocketMine-MP & forks
- *
- * @Author: svile
- * @Kik: _svile_
- * @Telegram_Gruop: https://telegram.me/svile
- * @E-mail: thesville@gmail.com
- * @Github: https://github.com/svilex/SkyWars-PocketMine
- *
- * Copyright (C) 2016 svile
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *
- * DONORS LIST :
- * - no one
- * - no one
- * - no one
- *
+ * @Author: Driesboy & Svile
+ * @E-mail: gamecraftpe@mail.com.com
  */
 
 namespace svile\sw;
-
-
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
-
 use pocketmine\Player;
-
 use pocketmine\utils\TextFormat;
 use pocketmine\math\Vector3;
 use pocketmine\block\Block;
 
 
-class SWcommands
+class SGcommands
 {
     /** @var SWmain */
     private $pg;
@@ -89,7 +54,7 @@ class SWcommands
 
                 */
                 if (!(count($args) > 0b11 and count($args) < 0b101)) {
-                    $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Usage: /sw ' . TextFormat::GREEN . 'create [SWname] [slots] [countdown] [maxGameTime]');
+                    $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Usage: /sg ' . TextFormat::GREEN . 'create [SGname] [slots] [countdown] [maxGameTime]');
                     break;
                 }
 
@@ -115,23 +80,23 @@ class SWcommands
                 foreach ($this->pg->arenas as $aname => $arena) {
                     if ($arena->getWorld() == $world) {
                         $sender->sendMessage(TextFormat::WHITE . '→' . TextFormat::RED . 'You can\'t create 2 arenas in the same world try:');
-                        $sender->sendMessage(TextFormat::RED . '→' . TextFormat::WHITE . '/sw list' . TextFormat::RED . ' for a list of arenas');
-                        $sender->sendMessage(TextFormat::RED . '→' . TextFormat::WHITE . '/sw delete' . TextFormat::RED . ' to delete an arena');
+                        $sender->sendMessage(TextFormat::RED . '→' . TextFormat::WHITE . '/sg list' . TextFormat::RED . ' for a list of arenas');
+                        $sender->sendMessage(TextFormat::RED . '→' . TextFormat::WHITE . '/sg delete' . TextFormat::RED . ' to delete an arena');
                         break 2;
                     }
                 }
 
-                //SW NAME
-                $SWname = array_shift($args);
-                if (!($SWname and ctype_alpha($SWname) and strlen($SWname) < 0x10 and strlen($SWname) > 0b10)) {
-                    $sender->sendMessage(TextFormat::WHITE . '→' . TextFormat::AQUA . '[SWname]' . TextFormat::RED . ' must consists of all letters (min3-max15)');
-                    unset($SWname);
+                //SG NAME
+                $SGname = array_shift($args);
+                if (!($SGname and ctype_alpha($SGname) and strlen($SGname) < 0x10 and strlen($SGname) > 0b10)) {
+                    $sender->sendMessage(TextFormat::WHITE . '→' . TextFormat::AQUA . '[SGname]' . TextFormat::RED . ' must consists of all letters (min3-max15)');
+                    unset($SGname);
                     break;
                 }
 
                 //Checks if the arena already exists
-                if (array_key_exists($SWname, $this->pg->arenas)) {
-                    $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Arena with name: ' . TextFormat::WHITE . $SWname . TextFormat::RED . ' already exist');
+                if (array_key_exists($SGname, $this->pg->arenas)) {
+                    $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Arena with name: ' . TextFormat::WHITE . $SGname . TextFormat::RED . ' already exist');
                     break;
                 }
 
@@ -139,7 +104,7 @@ class SWcommands
                 $slot = array_shift($args);
                 if (!($slot and is_numeric($slot) and is_int(($slot + 0)) and $slot < 0x33 and $slot > 1)) {
                     $sender->sendMessage(TextFormat::WHITE . '→' . TextFormat::AQUA . '[slots]' . TextFormat::RED . ' must be an integer >= 50 and >= 2');
-                    unset($SWname, $slot);
+                    unset($SGname, $slot);
                     break;
                 }
                 $slot += 0;
@@ -148,7 +113,7 @@ class SWcommands
                 $countdown = array_shift($args);
                 if (!($countdown and is_numeric($countdown) and is_int(($countdown + 0)) and $countdown > 0b1001 and $countdown < 0x12d)) {
                     $sender->sendMessage(TextFormat::WHITE . '→' . TextFormat::AQUA . '[countdown]' . TextFormat::RED . ' must be an integer <= 300 seconds (5 minutes) and >= 10');
-                    unset($SWname, $slot, $countdown);
+                    unset($SGname, $slot, $countdown);
                     break;
                 }
                 $countdown += 0;
@@ -157,7 +122,7 @@ class SWcommands
                 $maxtime = array_shift($args);
                 if (!($maxtime and is_numeric($maxtime) and is_int(($maxtime + 0)) and $maxtime > 0x12b and $maxtime < 0x259)) {
                     $sender->sendMessage(TextFormat::WHITE . '→' . TextFormat::AQUA . '[maxGameTime]' . TextFormat::RED . ' must be an integer <= 600 (10 minutes) and >= 300');
-                    unset($SWname, $slot, $countdown, $maxtime);
+                    unset($SGname, $slot, $countdown, $maxtime);
                     break;
                 }
                 $maxtime += 0;
@@ -186,12 +151,12 @@ class SWcommands
                 }
                 $sender->getServer()->unloadLevel($sender->getServer()->getLevelByName($world));
 
-                //From here @vars are: $SWname , $slot , $world . Now i'm going to Zip the world and make a new arena
+                //From here @vars are: $SGname , $slot , $world . Now i'm going to Zip the world and make a new arena
                 // { ZIP
                 $path = realpath($sender->getServer()->getDataPath() . 'worlds/' . $world);
                 $zip = new \ZipArchive;
-                @mkdir($this->pg->getDataFolder() . 'arenas/' . $SWname, 0755);
-                $zip->open($this->pg->getDataFolder() . 'arenas/' . $SWname . '/' . $world . '.zip', $zip::CREATE | $zip::OVERWRITE);
+                @mkdir($this->pg->getDataFolder() . 'arenas/' . $SGname, 0755);
+                $zip->open($this->pg->getDataFolder() . 'arenas/' . $SGname . '/' . $world . '.zip', $zip::CREATE | $zip::OVERWRITE);
                 $files = new \RecursiveIteratorIterator(
                     new \RecursiveDirectoryIterator($path),
                     \RecursiveIteratorIterator::LEAVES_ONLY
@@ -207,10 +172,10 @@ class SWcommands
                 unset($zip, $path, $files);
                 // ENDZIP }
 
-                //SWarena object
-                $this->pg->arenas[$SWname] = new SWarena($this->pg, $SWname, $slot, $world, $countdown, $maxtime, $void);
-                $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::GREEN . 'Arena: ' . TextFormat::DARK_GREEN . $SWname . TextFormat::GREEN . ' created successfully!');
-                $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::GREEN . 'Now set spawns with ' . TextFormat::WHITE . '/sw setspawn [slot]');
+                //SGarena object
+                $this->pg->arenas[$SGname] = new SGarena($this->pg, $SGname, $slot, $world, $countdown, $maxtime, $void);
+                $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::GREEN . 'Arena: ' . TextFormat::DARK_GREEN . $SGname . TextFormat::GREEN . ' created successfully!');
+                $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::GREEN . 'Now set spawns with ' . TextFormat::WHITE . '/sg setspawn [slot]');
                 break;
 
 
@@ -225,36 +190,36 @@ class SWcommands
 
                 */
                 if (count($args) != 1) {
-                    $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Usage: /sw ' . TextFormat::GREEN . 'setspawn [slot]');
+                    $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Usage: /sg ' . TextFormat::GREEN . 'setspawn [slot]');
                     break;
                 }
 
-                $SWname = '';
+                $SGname = '';
                 foreach ($this->pg->arenas as $name => $arena) {
                     if ($arena->getWorld() == $sender->getLevel()->getName()) {
-                        $SWname = $name;
+                        $SGname = $name;
                         break;
                     }
                 }
-                if (!($SWname and ctype_alpha($SWname) and strlen($SWname) < 0x10 and strlen($SWname) > 0b10 and array_key_exists($SWname, $this->pg->arenas))) {
+                if (!($SGname and ctype_alpha($SGname) and strlen($SGname) < 0x10 and strlen($SGname) > 0b10 and array_key_exists($SGname, $this->pg->arenas))) {
                     $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Arena not found here');
-                    unset($SWname);
+                    unset($SGname);
                     break;
                 }
 
                 $slot = array_shift($args);
                 if (!($slot and is_numeric($slot) and is_int(($slot + 0)) and $slot < 0x33 and $slot > 0)) {
                     $sender->sendMessage(TextFormat::WHITE . '→' . TextFormat::AQUA . '[slot]' . TextFormat::RED . ' must be an integer <= than 50 and >= 1');
-                    unset($SWname, $slot);
+                    unset($SGname, $slot);
                     break;
                 }
                 $slot += 0;
 
-                if ($sender->getLevel()->getName() == $this->pg->arenas[$SWname]->getWorld()) {
-                    if ($this->pg->arenas[$SWname]->setSpawn(false, $sender, $slot)) {
-                        $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::GREEN . 'New spawn: ' . TextFormat::WHITE . $slot . TextFormat::GREEN . ' In arena: ' . TextFormat::WHITE . $SWname);
-                        if ($this->pg->arenas[$SWname]->setSpawn(true, ''))
-                            $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::GREEN . 'I found all the spawns for Arena: ' . TextFormat::WHITE . $SWname . TextFormat::GREEN . ' , now you can create a join sign!');
+                if ($sender->getLevel()->getName() == $this->pg->arenas[$SGname]->getWorld()) {
+                    if ($this->pg->arenas[$SGname]->setSpawn(false, $sender, $slot)) {
+                        $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::GREEN . 'New spawn: ' . TextFormat::WHITE . $slot . TextFormat::GREEN . ' In arena: ' . TextFormat::WHITE . $SGname);
+                        if ($this->pg->arenas[$SGname]->setSpawn(true, ''))
+                            $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::GREEN . 'I found all the spawns for Arena: ' . TextFormat::WHITE . $SGname . TextFormat::GREEN . ' , now you can create a join sign!');
                     }
                 }
                 break;
@@ -275,7 +240,7 @@ class SWcommands
                         $sender->sendMessage(TextFormat::BLACK . '• ' . TextFormat::YELLOW . $key . TextFormat::AQUA . ' [' . $val->getSlot(true) . '/' . $val->getSlot() . ']' . TextFormat::DARK_GRAY . ' => ' . TextFormat::GREEN . $val->getWorld());
                     }
                 } else {
-                    $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'There aren\'t loaded arenas, create one with ' . TextFormat::WHITE . '/sw create');
+                    $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'There aren\'t loaded arenas, create one with ' . TextFormat::WHITE . '/sg create');
                 }
                 break;
 
@@ -289,27 +254,27 @@ class SWcommands
 
                 */
                 if (count($args) != 1) {
-                    $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Usage: /sw ' . TextFormat::GREEN . 'delete [SWname]');
+                    $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Usage: /sg ' . TextFormat::GREEN . 'delete [SGname]');
                     break;
                 }
 
-                $SWname = array_shift($args);
-                if (!($SWname and ctype_alpha($SWname) and strlen($SWname) < 0x10 and strlen($SWname) > 0b10 and array_key_exists($SWname, $this->pg->arenas))) {
-                    $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Arena: ' . TextFormat::WHITE . $SWname . TextFormat::RED . ' doesn\'t exist');
-                    unset($SWname);
+                $SGname = array_shift($args);
+                if (!($SGname and ctype_alpha($SGname) and strlen($SGname) < 0x10 and strlen($SGname) > 0b10 and array_key_exists($SGname, $this->pg->arenas))) {
+                    $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Arena: ' . TextFormat::WHITE . $SGname . TextFormat::RED . ' doesn\'t exist');
+                    unset($SGname);
                     break;
                 }
 
-                if (!(is_dir($this->pg->getDataFolder() . 'arenas/' . $SWname) and is_file($this->pg->getDataFolder() . 'arenas/' . $SWname . '/settings.yml'))) {
+                if (!(is_dir($this->pg->getDataFolder() . 'arenas/' . $SGname) and is_file($this->pg->getDataFolder() . 'arenas/' . $SGname . '/settings.yml'))) {
                     $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Arena files doesn\'t exists');
-                    unset($SWname);
+                    unset($SGname);
                     break;
                 }
 
                 $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::GREEN . 'Please wait, this can take a bit');
-                $this->pg->arenas[$SWname]->stop();
+                $this->pg->arenas[$SGname]->stop();
                 foreach ($this->pg->signs as $loc => $name) {
-                    if ($SWname == $name) {
+                    if ($SGname == $name) {
                         $ex = explode(':', $loc);
                         if ($this->pg->getServer()->loadLevel($ex[0b11])) {
                             $block = $this->pg->getServer()->getLevelByName($ex[0b11])->getBlock(new Vector3($ex[0], $ex[1], $ex[0b10]));
@@ -318,17 +283,17 @@ class SWcommands
                         }
                     }
                 }
-                $this->pg->setSign($SWname, 0, 0, 0, 'world', true, false);
-                unset($this->pg->arenas[$SWname]);
+                $this->pg->setSign($SGname, 0, 0, 0, 'world', true, false);
+                unset($this->pg->arenas[$SGname]);
 
-                foreach (scandir($this->pg->getDataFolder() . 'arenas/' . $SWname) as $file) {
-                    if ($file != '.' and $file != '..' and is_file($this->pg->getDataFolder() . 'arenas/' . $SWname . '/' . $file)) {
-                        @unlink($this->pg->getDataFolder() . 'arenas/' . $SWname . '/' . $file);
+                foreach (scandir($this->pg->getDataFolder() . 'arenas/' . $SGname) as $file) {
+                    if ($file != '.' and $file != '..' and is_file($this->pg->getDataFolder() . 'arenas/' . $SGname . '/' . $file)) {
+                        @unlink($this->pg->getDataFolder() . 'arenas/' . $SGname . '/' . $file);
                     }
                 }
-                @unlink($this->pg->getDataFolder() . 'arenas/' . $SWname);
-                $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::GREEN . 'Arena: ' . TextFormat::DARK_GREEN . $SWname . TextFormat::GREEN . ' Deleted !');
-                unset($SWname, $loc, $name, $ex, $block);
+                @unlink($this->pg->getDataFolder() . 'arenas/' . $SGname);
+                $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::GREEN . 'Arena: ' . TextFormat::DARK_GREEN . $SGname . TextFormat::GREEN . ' Deleted !');
+                unset($SGname, $loc, $name, $ex, $block);
                 break;
 
 
@@ -343,13 +308,13 @@ class SWcommands
 
                 */
                 if (count($args) != 1) {
-                    $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Usage: /sw ' . TextFormat::GREEN . 'signdelete [SWname|all]');
+                    $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Usage: /sw ' . TextFormat::GREEN . 'signdelete [SGname|all]');
                     break;
                 }
 
-                $SWname = array_shift($args);
-                if (!($SWname and ctype_alpha($SWname) and strlen($SWname) < 0x10 and strlen($SWname) > 0b10 and array_key_exists($SWname, $this->pg->arenas))) {
-                    if ($SWname == 'all') {
+                $SGname = array_shift($args);
+                if (!($SGname and ctype_alpha($SGname) and strlen($SGname) < 0x10 and strlen($SGname) > 0b10 and array_key_exists($SGname, $this->pg->arenas))) {
+                    if ($SGname == 'all') {
                         //Deleting SW signs blocks
                         foreach ($this->pg->signs as $loc => $name) {
                             $ex = explode(':', $loc);
@@ -360,17 +325,17 @@ class SWcommands
                             }
                         }
                         //Deleting signs from db & array
-                        $this->pg->setSign($SWname, 0, 0, 0, 'world', true);
-                        $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::GREEN . 'Deleted all SW signs !');
-                        unset($SWname, $loc, $name, $ex, $block);
+                        $this->pg->setSign($SGname, 0, 0, 0, 'world', true);
+                        $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::GREEN . 'Deleted all SG signs !');
+                        unset($SGname, $loc, $name, $ex, $block);
                     } else {
-                        $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Arena: ' . TextFormat::WHITE . $SWname . TextFormat::RED . ' doesn\'t exist');
-                        unset($SWname);
+                        $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Arena: ' . TextFormat::WHITE . $SGname . TextFormat::RED . ' doesn\'t exist');
+                        unset($SGname);
                     }
                     break;
                 }
                 foreach ($this->pg->signs as $loc => $name) {
-                    if ($SWname == $name) {
+                    if ($SGname == $name) {
                         $ex = explode(':', $loc);
                         if ($this->pg->getServer()->loadLevel($ex[0b11])) {
                             $block = $this->pg->getServer()->getLevelByName($ex[0b11])->getBlock(new Vector3($ex[0], $ex[1], $ex[0b10]));
@@ -379,9 +344,9 @@ class SWcommands
                         }
                     }
                 }
-                $this->pg->setSign($SWname, 0, 0, 0, 'world', true, false);
-                $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::GREEN . 'Deleted signs for arena: ' . TextFormat::DARK_GREEN . $SWname);
-                unset($SWname, $loc, $name, $ex, $block);
+                $this->pg->setSign($SGname, 0, 0, 0, 'world', true, false);
+                $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::GREEN . 'Deleted signs for arena: ' . TextFormat::DARK_GREEN . $SGname);
+                unset($SGname, $loc, $name, $ex, $block);
                 break;
 
 
@@ -400,7 +365,7 @@ class SWcommands
 
             default:
                 //No option found, usage
-                $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Usage: /sw [create|setspawn|list|delete|signdelete]');
+                $sender->sendMessage(TextFormat::AQUA . '→' . TextFormat::RED . 'Usage: /sg [create|setspawn|list|delete|signdelete]');
                 break;
 
 
