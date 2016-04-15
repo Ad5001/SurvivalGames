@@ -1,59 +1,23 @@
 <?php
 
 /*
- *                _   _
- *  ___  __   __ (_) | |   ___
- * / __| \ \ / / | | | |  / _ \
- * \__ \  \ / /  | | | | |  __/
- * |___/   \_/   |_| |_|  \___|
+ * SurvivalGames plugin for PocketMine-MP & forks
  *
- * SkyWars plugin for PocketMine-MP & forks
- *
- * @Author: svile
- * @Kik: _svile_
- * @Telegram_Gruop: https://telegram.me/svile
- * @E-mail: thesville@gmail.com
- * @Github: https://github.com/svilex/SkyWars-PocketMine
- *
- * Copyright (C) 2016 svile
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *
- * DONORS LIST :
- * - no one
- * - no one
- * - no one
- *
+ * @Author: Driesboy & Svile
+ * @E-mail: gamecraftpe@mail.com.com
  */
 
 namespace svile\sw;
-
-
 use pocketmine\Player;
-
 use pocketmine\block\Block;
 use pocketmine\level\Position;
-
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
-
 use pocketmine\tile\Chest;
 use pocketmine\item\Item;
 
 
-class SWarena
+class SGarena
 {
     /** @var int */
     public $GAME_STATE = 0;//0 -> GAME_COUNTDOWN | 1 -> GAME_RUNNING
@@ -90,14 +54,14 @@ class SWarena
     public function __construct(SWmain $plugin, $SWname = 'sw', $slot = 0, $world = 'world', $countdown = 0, $maxtime = 0, $void = 0)
     {
         $this->pg = $plugin;
-        $this->SWname = $SWname;
+        $this->SGname = $SGname;
         $this->slot = ($slot + 0);
         $this->world = $world;
         $this->countdown = ($countdown + 0);
         $this->maxtime = ($maxtime + 0);
         $this->void = $void;
         if (!$this->reload()) {
-            $this->pg->getLogger()->info(TextFormat::RED . 'An error occured while reloading the arena: ' . TextFormat::WHITE . $this->SWname);
+            $this->pg->getLogger()->info(TextFormat::RED . 'An error occured while reloading the arena: ' . TextFormat::WHITE . $this->SGname);
             $this->pg->getServer()->getPluginManager()->disablePlugin($this->pg);
         }
     }
@@ -110,17 +74,17 @@ class SWarena
         //Map reset
         if ($this->pg->getServer()->isLevelLoaded($this->world))
             $this->pg->getServer()->unloadLevel($this->pg->getServer()->getLevelByName($this->world));
-        if (!is_file($this->pg->getDataFolder() . 'arenas/' . $this->SWname . '/' . $this->world . '.zip'))
+        if (!is_file($this->pg->getDataFolder() . 'arenas/' . $this->SGname . '/' . $this->world . '.zip'))
             return false;
         $zip = new \ZipArchive;
-        $zip->open($this->pg->getDataFolder() . 'arenas/' . $this->SWname . '/' . $this->world . '.zip');
+        $zip->open($this->pg->getDataFolder() . 'arenas/' . $this->SGname . '/' . $this->world . '.zip');
         $zip->extractTo($this->pg->getServer()->getDataPath() . 'worlds');
         $zip->close();
         unset($zip);
         $this->pg->getServer()->loadLevel($this->world);
 
         $config = new Config($this->pg->getDataFolder() . 'arenas/' . $this->SWname . '/settings.yml', CONFIG::YAML, array(//TODO: put descriptions
-            'name' => $this->SWname,
+            'name' => $this->SGname,
             'slot' => $this->slot,
             'world' => $this->world,
             'countdown' => $this->countdown,
@@ -128,7 +92,7 @@ class SWarena
             'void_Y' => $this->void,
             'spawns' => [],
         ));
-        $this->SWname = $config->get('name');
+        $this->SGname = $config->get('name');
         $this->slot = ($config->get('slot') + 0);
         $this->world = $config->get('world');
         $this->countdown = ($config->get('countdown') + 0);
