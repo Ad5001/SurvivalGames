@@ -15,6 +15,10 @@ use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
 use pocketmine\tile\Chest;
 use pocketmine\item\Item;
+use pocketmine\command\CommandSender;
+use pocketmine\command\Command;
+use pocketmine\command\ConsoleCommandSender;
+use pocketmine\command\CommandExecutor;
 
 
 class SGarena
