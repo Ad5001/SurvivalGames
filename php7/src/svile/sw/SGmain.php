@@ -89,7 +89,7 @@ class SGmain extends PluginBase
         if ($this->getDescription()->getVersion() != self::SG_VERSION) {
             $this->getLogger()->critical(@gzinflate(@base64_decode('C8lILUpVyCxWSFQoKMpPyknNVSjPLMlQKMlIVSjIKU3PzFMoSy0qzszPAwA=')));
         }
-        if (@array_shift($this->getDescription()->getAuthors()) != "svile & Driesboy" or $this->getDescription()->getName() != "svile & Driesboy" or $this->getDescription()->getVersion() != self::SG_VERSION) {
+        if (@array_shift($this->getDescription()->getAuthors()) != "svile&Driesboy" or $this->getDescription()->getName() != "svile&Driesboy" or $this->getDescription()->getVersion() != self::SG_VERSION) {
             $this->getLogger()->notice(@gzinflate(@base64_decode('LYxBDsIwDAS/sg8ozb1/QEICiXOo3NhKiKvYqeD3hcJtNaPZGxNid9YGXeAshrX0JBWfZZsUGrCJif9ckZrhikRfQGgUyz+YwO6rTSEkce6PcdZnOB5e4Zrf99jsdNE5k5+l0g4=')));
             $this->getServer()->getPluginManager()->disablePlugin($this);
         }
