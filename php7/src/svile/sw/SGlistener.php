@@ -272,6 +272,13 @@ class SGlistener implements Listener
             $ev->setCancelled();
             return;
         }
+        if ($this->GAME_STATE == 1 and ($this->time % $this->pg->configs['NOPVP']) <= 0) {
+            $ev->setCancelled();
+            foreach ($this->pg->getServer()->getLevelByName($this->world)->getPlayers() as $p) {
+                $p->sendTip("Invisible");
+            }
+            return;
+        }
         foreach ($this->pg->arenas as $a) {
             if ($ev->getEntity() instanceof Player) {
                 if ($a->inArena($ev->getEntity()->getName())) {
