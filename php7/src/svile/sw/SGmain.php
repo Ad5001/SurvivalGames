@@ -440,12 +440,7 @@ class SGmain extends PluginBase
 
             //BLOCKS
             'block' => array(
-                Item::STONE,
-                Item::WOODEN_PLANK
-                /*
-                Item::COBBLESTONE,
-                Item::DIRT
-                */
+                Item::WOODEN_PICKAXE
             ),
 
             //OTHER
