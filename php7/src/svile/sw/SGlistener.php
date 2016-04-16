@@ -272,6 +272,7 @@ class SGlistener implements Listener
             $ev->setCancelled();
             return;
         }
+        $this->time = 0;
         foreach ($this->pg->arenas as $a) {
             if ($ev->getEntity() instanceof Player) {
                 if ($a->inArena($ev->getEntity()->getName())) {
