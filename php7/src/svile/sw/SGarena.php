@@ -380,7 +380,7 @@ class SGarena
                 $p->teleport($p->getServer()->getDefaultLevel()->getSpawnLocation());
                 foreach ($this->pg->getServer()->getDefaultLevel()->getPlayers() as $pl) {
                     $pl->sendMessage(str_replace('{SGNAME}', $this->SGname, str_replace('{PLAYER}', $p->getName(), $this->pg->lang['server.broadcast_winner'])));
-                    $pl->getServer()->dispatchCommand(new ConsoleCommandSender(), str_ireplace("{PLAYER}", $p->getName(), $this->configs->get("reward-command")));
+                    $pl->getServer()->dispatchCommand(new ConsoleCommandSender(), str_ireplace("{PLAYER}", $p->getName(), $this->pg->configs->get("reward-command")));
                 }
 
             }
