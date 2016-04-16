@@ -272,23 +272,14 @@ class SGlistener implements Listener
             $ev->setCancelled();
             return;
         }
-        if ($ev->getEntity() instanceof Player) {
-        if ($this->pg->arenas->inArena($ev->getEntity()->getName())) {
-        if ($this->GAME_STATE == 1 and ($this->time % $this->pg->configs['NOPVP']) <= 0) {
-            $ev->setCancelled();
-            foreach ($this->pg->getServer()->getLevelByName($this->world)->getPlayers() as $p) {
-                $p->sendTip("Invisible");
-            }
-            return;
-        }
-        }
-        }
         foreach ($this->pg->arenas as $a) {
             if ($ev->getEntity() instanceof Player) {
                 if ($a->inArena($ev->getEntity()->getName())) {
                     if ($ev->getCause() == 0b1111 and $this->pg->configs['starvation_can_damage_inArena_players'] == false)
                         $ev->setCancelled();
                     if ($a->GAME_STATE == 0)
+                        $ev->setCancelled();
+                    if ($this->GAME_STATE == 1 and ($this->time % $this->pg->configs['NOPVP']) <= 0) {
                         $ev->setCancelled();
                     break;
                 }
