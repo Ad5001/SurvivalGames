@@ -138,7 +138,7 @@ class SGmain extends PluginBase
             'start.when_full' => true,
             'chest.refill' => true,
             'chest.refill_rate' => 0xf0,
-            'NOPVP' => 0xf0,
+            'NOPVP' => 0x3C,
             'reward-command' => 'givemoney {PLAYER} 50'
         ));
         touch($this->getDataFolder() . 'SG_configs.yml');
