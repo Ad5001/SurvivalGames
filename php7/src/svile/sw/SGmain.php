@@ -29,7 +29,7 @@ use pocketmine\math\Vector3;
 class SGmain extends PluginBase
 {
     /** Plugin Version */
-    const SG_VERSION = 0.4;
+    const SG_VERSION = 0.3;
 
     /** @var SWcommands */
     private $commands;
