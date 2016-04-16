@@ -137,7 +137,8 @@ class SGmain extends PluginBase
             'drops_in_arena' => false,
             'start.when_full' => true,
             'chest.refill' => true,
-            'chest.refill_rate' => 0xf0
+            'chest.refill_rate' => 0xf0,
+            'reward-command' => 'givemoney {PLAYER} 50'
         ));
         touch($this->getDataFolder() . 'SG_configs.yml');
         $this->configs = $this->configs->getAll();
