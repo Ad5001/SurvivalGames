@@ -234,7 +234,7 @@ class SGarena
                 for ($i = 0; $i < $tile->getSize(); $i++) {
                     $tile->getInventory()->setItem($i, Item::get(0));
                 }
-                //SET CONTENTS
+                //SET CONTENTS  
                 if (empty($contents))
                     $contents = $this->pg->getChestContents();
                 foreach (array_shift($contents) as $key => $val) {
@@ -255,7 +255,7 @@ class SGarena
         //START and STOP
         if ($this->GAME_STATE === 0 and $this->pg->configs['start.when_full'] and $this->slot <= count($this->players)) {
             foreach($this->players as $player) {
-            $this->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp both ".$player->getName());
+            $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp both ".$player->getName());
             }
             $this->getServer()->getScheduler()->scheduleRepeatingTask(new svile\sw\noPVPTask($this, $this->players), 500);
             return;
@@ -266,7 +266,7 @@ class SGarena
         }
         if ($this->GAME_STATE === 0 and $this->time >= $this->countdown) {
             foreach($this->players as $player) {
-            $this->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp both ".$player->getName());
+            $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp both ".$player->getName());
             }
             $this->getServer()->getScheduler()->scheduleRepeatingTask(new svile\sw\noPVPTask($this, $this->players), 500);
             return;
