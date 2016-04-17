@@ -248,29 +248,35 @@ class SGarena
     /** VOID */
     public function tick()
     {
-        if ($this->GAME_STATE == 0 and count($this->players) < ($this->pg->configs['needed_players_to_run_countdown'] + 0))
+        if ($this->GAME_STATE === 0 and count($this->players) < ($this->pg->configs['needed_players_to_run_countdown'] + 0))
             return;
         $this->time++;
 
         //START and STOP
-        if ($this->GAME_STATE == 0 and $this->pg->configs['start.when_full'] and $this->slot <= count($this->players)) {
-            $this->start();
+        if ($this->GAME_STATE === 0 and $this->pg->configs['start.when_full'] and $this->slot <= count($this->players)) {
+            foreach($this->players as $player) {
+            $this->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp both ".$player->getName());
+            }
+            $this->getServer()->getScheduler()->scheduleRepeatingTask(new svile\sw\noPVPTask($this, $this->players), 500);
             return;
         }
-        if ($this->GAME_STATE == 1 and 2 > count($this->players)) {
+        if ($this->GAME_STATE === 1 and 2 > count($this->players)) {
             $this->stop();
             return;
         }
-        if ($this->GAME_STATE == 0 and $this->time >= $this->countdown) {
-            $this->start();
+        if ($this->GAME_STATE === 0 and $this->time >= $this->countdown) {
+            foreach($this->players as $player) {
+            $this->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp both ".$player->getName());
+            }
+            $this->getServer()->getScheduler()->scheduleRepeatingTask(new svile\sw\noPVPTask($this, $this->players), 500);
             return;
         }
-        if ($this->GAME_STATE == 1 and $this->time >= $this->maxtime) {
+        if ($this->GAME_STATE === 1 and $this->time >= $this->maxtime) {
             $this->stop();
             return;
         }
 
-        if ($this->GAME_STATE == 1 and $this->pg->configs['chest.refill'] and ($this->time % $this->pg->configs['chest.refill_rate']) == 0) {
+        if ($this->GAME_STATE === 1 and $this->pg->configs['chest.refill'] and ($this->time % $this->pg->configs['chest.refill_rate']) == 0) {
             $this->refillChests();
             foreach ($this->pg->getServer()->getLevelByName($this->world)->getPlayers() as $p) {
                 $p->sendMessage($this->pg->lang['game.chest_refill']);
