@@ -268,6 +268,7 @@ class SGlistener implements Listener
 
     public function onDamage(EntityDamageEvent $ev)
     {
+        $this->time++;
         if ($ev->getCause() == 0b100 or $ev->getCause() == 0b1100 or $ev->getCause() == 0b11) {
             $ev->setCancelled();
             return;
@@ -279,7 +280,6 @@ class SGlistener implements Listener
                         $ev->setCancelled();
                     if ($a->GAME_STATE == 0)
                         $ev->setCancelled();
-                        $this->time++;
                     if ($a->GAME_STATE == 1 and ($this->time % $this->pg->configs['NOPVP']) > 0)
                         $ev->setCancelled();
                     break;
