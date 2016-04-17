@@ -267,9 +267,9 @@ class SGarena
         }
         if ($this->GAME_STATE === 0 and $this->time >= $this->countdown) {
             foreach($this->players as $player) {
-            $this->plugin->getServer()->getScheduler()->scheduleDelayedTask(new svile\sw\noPVPTask($this, $this->players), 500);
+            $this->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp both ".$player->getName());
             }
-            $this->getServer()->getScheduler()->scheduleRepeatingTask(new svile\sw\noPVPTask($this, $this->players), 500);
+            $this->plugin->getServer()->getScheduler()->scheduleDelayedTask(new svile\sw\noPVPTask($this, $this->players), 500);
             return;
         }
         if ($this->GAME_STATE === 1 and $this->time >= $this->maxtime) {
