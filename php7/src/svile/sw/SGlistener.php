@@ -37,7 +37,6 @@ class SGlistener implements Listener
 {
     /** @var SGmain */
     private $pg;
-    private $time = 0;
 
     public function __construct(SGmain $plugin)
     {
@@ -269,7 +268,6 @@ class SGlistener implements Listener
 
     public function onDamage(EntityDamageEvent $ev)
     {
-        $this->time++;
         if ($ev->getCause() == 0b100 or $ev->getCause() == 0b1100 or $ev->getCause() == 0b11) {
             $ev->setCancelled();
             return;
