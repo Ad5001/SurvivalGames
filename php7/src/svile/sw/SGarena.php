@@ -9,6 +9,7 @@
 
 namespace svile\sw;
 use pocketmine\Player;
+use pocketmine\Server;
 use pocketmine\block\Block;
 use pocketmine\level\Position;
 use pocketmine\utils\Config;
