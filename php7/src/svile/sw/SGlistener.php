@@ -37,6 +37,7 @@ class SGlistener implements Listener
 {
     /** @var SGmain */
     private $pg;
+    private $this->time = 0;
 
     public function __construct(SGmain $plugin)
     {
@@ -279,6 +280,8 @@ class SGlistener implements Listener
                         $ev->setCancelled();
                     if ($a->GAME_STATE == 0)
                         $ev->setCancelled();
+                    if ($a->GAME_STATE == 1 and ($this->time % $this->pg->configs['NOPVP']) <= 0)
+                        $ev->setCancelled();    
                     break;
                 }
             }
