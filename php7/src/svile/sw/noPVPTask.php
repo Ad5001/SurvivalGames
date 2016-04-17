@@ -1,6 +1,6 @@
 <?php
 
-namespace Driesboy\SurvivalGames; 
+namespace svile\sw;
 
 use pocketmine\server;
 use pocketmine\scheduler\PluginTask;
@@ -19,13 +19,15 @@ use pocketmine\plugin\PluginBase;
 
    class noPVPTask extends PluginTask  {
 	private $plugin;
-    public function __construct($plugin){
+	private $players;
+    public function __construct($plugin, $players){
         parent::__construct($plugin);
 		$this->p = $plugin;
+	        $this->pl = $players;
 	}
 	public function onRun($tick) {
-	foreach($this->p->getServer()->getOnlinePlayers() as $player) {
-    $this->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp both ".$player->getName());
+	foreach($this->pl as $player) {
+           $this->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp false ".$player->getName());
 	}
 	}
 	}
