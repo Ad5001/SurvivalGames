@@ -1,5 +1,4 @@
 # SurvivalGames - PocketMine plugin
-![SurvivalGames](https://raw.githubusercontent.com/svilex/res/master/skywars.png)
 
 ---
 ###About
@@ -26,5 +25,5 @@ _Click [**here**](https://github.com/svilex/SkyWars-PocketMine/releases) for oth
 **1.** Teleport yourself in the world where you would like to create it (not default one).<br/>
 **2.** Now you can use the command `/sg create [SWname] [slots] [countdown] [maxGameTime]` to create an arena.<br/>
 **3.** Go back in the arena world and depending on its spawns/slots use the command `/sw setspawn [slot]` x times.<br/>
-**4.** Place a sign with `sw` in the 1st line and `SWname` in the 2nd.<br/>
+**4.** Place a sign with `sg` in the 1st line and `SGname` in the 2nd.<br/>
 **5.** Done, now players can tap the sign to join the game!
