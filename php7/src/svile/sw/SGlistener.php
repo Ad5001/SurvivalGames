@@ -280,8 +280,8 @@ class SGlistener implements Listener
                         $ev->setCancelled();
                     if ($a->GAME_STATE == 0)
                         $ev->setCancelled();
-                    if ($a->GAME_STATE == 1 and ($this->time % $this->pg->configs['NOPVP']) <= 0)
-                        $ev->setCancelled();    
+                    if ($a->GAME_STATE == 1 and ($this->time % $this->pg->configs['NOPVP']) > 0)
+                        $ev->setCancelled();
                     break;
                 }
             }
