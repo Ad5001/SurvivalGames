@@ -1,6 +1,7 @@
 <?php
 
-namespace Driesboy\SurvivalGames; 
+
+namespace svile\sw;; 
 
 use pocketmine\server;
 use pocketmine\scheduler\PluginTask;
