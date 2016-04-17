@@ -254,7 +254,10 @@ class SGarena
 
         //START and STOP
         if ($this->GAME_STATE === 0 and $this->pg->configs['start.when_full'] and $this->slot <= count($this->players)) {
-            $this->getServer()->getScheduler()->scheduleRepeatingTask(new svile\sw\noPVPTask($this), 500);
+            foreach($this->players as $player) {
+            $this->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp false ".$player->getName());
+            }
+            $this->getServer()->getScheduler()->scheduleRepeatingTask(new svile\sw\noPVPTask($this, $this->players), 500);
             return;
         }
         if ($this->GAME_STATE === 1 and 2 > count($this->players)) {
@@ -262,7 +265,10 @@ class SGarena
             return;
         }
         if ($this->GAME_STATE === 0 and $this->time >= $this->countdown) {
-            $this->getServer()->getScheduler()->scheduleRepeatingTask(new svile\sw\noPVPTask($this), 500);
+            foreach($this->players as $player) {
+            $this->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp false ".$player->getName());
+            }
+            $this->getServer()->getScheduler()->scheduleRepeatingTask(new svile\sw\noPVPTask($this, $this->players), 500);
             return;
         }
         if ($this->GAME_STATE === 1 and $this->time >= $this->maxtime) {
