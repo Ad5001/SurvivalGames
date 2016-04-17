@@ -1,4 +1,5 @@
 <?php
+
 namespace Driesboy\SurvivalGames; 
 
 use pocketmine\server;
