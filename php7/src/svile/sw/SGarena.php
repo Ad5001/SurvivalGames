@@ -256,9 +256,9 @@ class SGarena
         //START and STOP
         if ($this->GAME_STATE === 0 and $this->pg->configs['start.when_full'] and $this->slot <= count($this->players)) {
             foreach($this->players as $player) {
-            $this->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp both ".$player->getName());
+            $this->plugin->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp both ".$player->getName());
             }
-            $this->plugin->getServer()->getScheduler()->scheduleDelayedTask(new svile\sw\noPVPTask($this, $this->players), 500);
+            $this->getServer()->getScheduler()->scheduleDelayedTask(new svile\sw\noPVPTask($this, $this->players), 500);
             return;
         }
         if ($this->GAME_STATE === 1 and 2 > count($this->players)) {
@@ -267,9 +267,9 @@ class SGarena
         }
         if ($this->GAME_STATE === 0 and $this->time >= $this->countdown) {
             foreach($this->players as $player) {
-            $this->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp both ".$player->getName());
+            $this->plugin->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp both ".$player->getName());
             }
-            $this->plugin->getServer()->getScheduler()->scheduleDelayedTask(new svile\sw\noPVPTask($this, $this->players), 500);
+            $this->getServer()->getScheduler()->scheduleDelayedTask(new svile\sw\noPVPTask($this, $this->players), 500);
             return;
         }
         if ($this->GAME_STATE === 1 and $this->time >= $this->maxtime) {
