@@ -27,6 +27,7 @@ class SGarena
     /** @var int */
     public $GAME_STATE = 0;//0 -> GAME_COUNTDOWN | 1 -> NOPVP | 2 -> Running | 3 -> DeathMatch 
     /** @var SGmain */
+    private $plugin
     private $pg;
     /** @var string */
     private $SGname;
