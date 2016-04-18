@@ -60,6 +60,7 @@ class SGarena
     public function __construct(SGmain $plugin, $SGname = 'sg', $slot = 0, $world = 'world', $countdown = 0, $maxtime = 0, $void = 0)
     {
         $this->pg = $plugin;
+        $this->plugin = $plugin;
         $this->SGname = $SGname;
         $this->slot = ($slot + 0);
         $this->world = $world;
