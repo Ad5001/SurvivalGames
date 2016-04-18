@@ -258,7 +258,7 @@ class SGarena
             foreach($this->players as $player) {
             $this->plugin->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp both ".$player->getName());
             }
-            $this->getServer()->getScheduler()->scheduleDelayedTask(new svile\sw\noPVPTask($this, $this->players), 500);
+            $this->plugin->getServer()->getScheduler()->scheduleDelayedTask(new svile\sw\noPVPTask($this, $this->players), 500);
             return;
         }
         if ($this->GAME_STATE === 1 and 2 > count($this->players)) {
@@ -269,7 +269,7 @@ class SGarena
             foreach($this->players as $player) {
             $this->plugin->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp both ".$player->getName());
             }
-            $this->getServer()->getScheduler()->scheduleDelayedTask(new svile\sw\noPVPTask($this, $this->players), 500);
+            $this->plugin->getServer()->getScheduler()->scheduleDelayedTask(new svile\sw\noPVPTask($this, $this->players), 500);
             return;
         }
         if ($this->GAME_STATE === 1 and $this->time >= $this->maxtime) {
