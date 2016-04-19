@@ -268,7 +268,8 @@ class SGarena
             return;
         }
         if ($this->GAME_STATE === 0 and $this->time >= $this->countdown) {
-            foreach($this->players as $player) {
+            foreach($this->players as $pl) {
+                $player = $this->plugin->getServer()->getPlayer($player);
             $this->plugin->getServer()->dispatchCommand(new ConsoleCommandSender(), "nopvp both ".$player->getName());
             }
             $this->plugin->getServer()->getScheduler()->scheduleDelayedTask(new svile\sw\noPVPTask($this, $this->players), 500);
